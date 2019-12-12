@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  freemarker:
+    suffix: .html
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672     #5672是发送消息端口,15672是管理端的端口
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        #acknowledge-mode: manual #设置确认模式手工确认
+        concurrency: 3 #消费者最小数量
+        max-concurrency: 10 # 消费者最大数量
+        prefetch: 5
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/abc?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: cn.yanrui.Shop.repository
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
+
+login:
+  user:
+    queue: loginUserQueue
+    exchange: loginUserExchage
+    routingkey: loginUserKey
